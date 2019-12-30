@@ -14,6 +14,7 @@ pipeline{
 				git "${GIT_URL}"
 				sh 'ls'
 				sh 'workspace'
+				}
 		}
 
         stage('Docker Build'){
@@ -35,18 +36,22 @@ pipeline{
 				//sh 'docker push 387637752303.dkr.ecr.us-east-1.amazonaws.com/demo-test1:latest'
 				sh 'docker push ${ECR_URL}/${REPO_NAME}:${VERSION}'
 				}
+			}
 				
 			
-			}
-			
 		}
+			
 		stage('Deployment on K8s'){
+				steps{
 				sh "chmod +x changeTag.sh"
 				sh "./changeTag.sh ${VERSION}"
+				sh 'ls'
 				sh "cat deployment.yaml"
+				}
 				
 		}
     }
+}
 }
 def getDockerTag(){
     def tag  = sh script: 'git rev-parse HEAD | cut -c 1-7', returnStdout: true
