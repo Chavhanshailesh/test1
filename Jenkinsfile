@@ -44,7 +44,7 @@ pipeline{
 		stage('Deployment on K8s'){
 				steps{
 				sh "chmod +x changeTag.sh"
-				sh "./changeTag.sh ${VERSION}"
+				sh "./changeTag.sh ${REPO_NAME} ${IMAGE_NAME} ${VERSION}"
 				sh 'ls'
 				sh "cat latest-deployment.yaml"
 				}

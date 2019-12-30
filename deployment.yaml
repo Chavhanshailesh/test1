@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: deepakjotwani/simplr-frontend:tagVersion
+          image: repoName/appName:tagVersion
           ports:
             - name: frontend
               containerPort: 5000
