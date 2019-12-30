@@ -52,7 +52,6 @@ pipeline{
 		}
     }
 }
-}
 def getDockerTag(){
     def tag  = sh script: 'git rev-parse HEAD | cut -c 1-7', returnStdout: true
     return tag
