@@ -46,7 +46,7 @@ pipeline{
 				sh "chmod +x changeTag.sh"
 				sh "./changeTag.sh ${REPO_NAME} ${IMAGE_NAME} ${VERSION}"
 				sh 'ls'
-				sh "cat latest-deployment.yaml"
+				sh "cat latest-deployment.yaml"s
 				}
 				
 		}
