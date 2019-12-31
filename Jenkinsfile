@@ -13,7 +13,6 @@ pipeline{
 			steps{
 				git "${GIT_URL}"
 				sh 'ls'
-				//sh 'workspace'
 			}
 		}
 
