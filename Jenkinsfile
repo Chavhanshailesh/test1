@@ -18,7 +18,6 @@ pipeline{
 
         stage('Docker Build'){
             steps{
-				sh 'ls'
 				sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
             }
 
@@ -49,6 +48,8 @@ pipeline{
 						sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
 						sh 'aws-iam-authenticator help'
 						//sh 'kubectl get pods'
+						//sh "kubectl apply -f latest-deployment.yaml"
+						//sh "kubectl apply -f service.yaml"
 					}
 				}	
 		}
