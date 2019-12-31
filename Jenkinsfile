@@ -14,7 +14,7 @@ pipeline{
 				git "${GIT_URL}"
 				sh 'ls'
 				//sh 'workspace'
-				}
+			}
 		}
 
         stage('Docker Build'){
@@ -35,6 +35,7 @@ pipeline{
 				sh 'docker tag ${REPO_NAME}/${IMAGE_NAME}:${VERSION} ${ECR_URL}/${REPO_NAME}:${VERSION}'
 				//sh 'docker push 387637752303.dkr.ecr.us-east-1.amazonaws.com/demo-test1:latest'
 				sh 'docker push ${ECR_URL}/${REPO_NAME}:${VERSION}'
+				docker pull 387637752303.dkr.ecr.us-east-1.amazonaws.com/${REPO_NAME}:${VERSION}s
 				}
 			}
 				
