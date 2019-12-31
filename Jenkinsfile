@@ -30,10 +30,7 @@ pipeline{
 					sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
 					sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
 					sh '$(aws ecr get-login --no-include-email --region us-east-1)'
-					//sh "docker push ${REPO_NAME}/${IMAGE_NAME}:${VERSION}"
-					//sh 'docker tag demo-test1:latest 387637752303.dkr.ecr.us-east-1.amazonaws.com/demo-test1:latest'
 					sh 'docker tag ${REPO_NAME}/${IMAGE_NAME}:${VERSION} ${ECR_URL}/${REPO_NAME}:${VERSION}'
-					//sh 'docker push 387637752303.dkr.ecr.us-east-1.amazonaws.com/demo-test1:latest'
 					sh 'docker push ${ECR_URL}/${REPO_NAME}:${VERSION}'
 					sh "docker pull 387637752303.dkr.ecr.us-east-1.amazonaws.com/${REPO_NAME}:${VERSION}"
 				}
@@ -52,7 +49,7 @@ pipeline{
 						sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
 						sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
 						sh 'aws-iam-authenticator help'
-						sh 'kubectl get pods'
+						//sh 'kubectl get pods'
 					}
 				}	
 		}
