@@ -2,44 +2,55 @@ pipeline{
     agent any
     environment{
 				VERSION = "${BUILD_ID}"
-				REPO_NAME1 = 'demo-test1'
-				REPO_NAME2 = 'demo-test2'
-				IMAGE_NAME1 = 'be1'
-				IMAGE_NAME2 = 'be2'
+				REPO_NAME = 'demo-test1'
+				IMAGE_NAME = 'frontend'
 				ECR_URL = '387637752303.dkr.ecr.us-east-1.amazonaws.com'
-				GIT_URL = 'https://github.com/Chavhanshailesh/test1.git'
+				
 		
     }
     stages{
+	
         stage('Docker Build'){
             steps{
-				sh 'cd docker1'
-				sh "docker build . -t ${REPO_NAME1}/${IMAGE_NAME1}:${VERSION}"
-				sh 'cd ..'
-				sh 'cd docker2'
-				sh "docker build . -t ${REPO_NAME2}/${IMAGE_NAME2}:${VERSION}"
-				sh 'cd ..'
+				sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
             }
 
         }
 		stage('ECR Push'){
 			steps{
-				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-cred', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'cicd-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 					sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
 					sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
 					sh '$(aws ecr get-login --no-include-email --region us-east-1)'
-					sh 'docker tag ${REPO_NAME1}/${IMAGE_NAME1}:${VERSION} ${ECR_URL}/${REPO_NAME1}:${VERSION}'
-					sh 'docker push ${ECR_URL}/${REPO_NAME1}:${VERSION}'
-					
-					sh 'docker tag ${REPO_NAME2}/${IMAGE_NAME2}:${VERSION} ${ECR_URL}/${REPO_NAME2}:${VERSION}'
-					sh 'docker push ${ECR_URL}/${REPO_NAME2}:${VERSION}'
-					
-					sh "docker pull 387637752303.dkr.ecr.us-east-1.amazonaws.com/${REPO_NAME1}:${VERSION}"
-					sh "docker pull 387637752303.dkr.ecr.us-east-1.amazonaws.com/${REPO_NAME2}:${VERSION}"
+					sh 'docker tag ${REPO_NAME}/${IMAGE_NAME}:${VERSION} ${ECR_URL}/${REPO_NAME}:${VERSION}'
+					sh 'docker push ${ECR_URL}/${REPO_NAME}:${VERSION}'
 				}
 			}
 				
 			
+		}
+			
+		stage('Deployment on K8s'){
+				steps{
+					sh "chmod +x changeTag.sh"
+					sh "./changeTag.sh ${VERSION}"
+					sh 'ls'
+					sh "cat latest-deployment.yaml"
+					withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'cicd-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+						sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
+						sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
+						sh 'mkdir -p ~/bin'
+						sh 'curl -o ~/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator'
+						sh 'chmod a+x ~/bin/aws-iam-authenticator'
+						sh 'export PATH=~/bin:$PATH'
+						sh label: '', script: 'echo \'export PATH=~/bin:$PATH\' >> ~/.bashrc'
+						echo "$PATH"
+						sh 'aws-iam-authenticator help'
+						sh 'kubectl get pods'
+						//sh "kubectl apply -f latest-deployment.yaml"
+						//sh "kubectl apply -f service.yaml"
+					}
+				}	
 		}
 				
 	}
