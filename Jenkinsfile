@@ -31,7 +31,7 @@ pipeline{
 					sh 'docker tag ${REPO_NAME1}/${IMAGE_NAME1}:${VERSION} ${ECR_URL}/${REPO_NAME1}:${VERSION}'
 					sh 'docker push ${ECR_URL}/${REPO_NAME1}:${VERSION}'
 					
-					sh 'docker tag ${REPO_NAME2}/${IMAGE_NAME2}:${VERSION} ${ECR_URL}/${REPO_NAME1}:${VERSION}'
+					sh 'docker tag ${REPO_NAME2}/${IMAGE_NAME2}:${VERSION} ${ECR_URL}/${REPO_NAME2}:${VERSION}'
 					sh 'docker push ${ECR_URL}/${REPO_NAME2}:${VERSION}'
 					
 					sh "docker pull 387637752303.dkr.ecr.us-east-1.amazonaws.com/${REPO_NAME1}:${VERSION}"
