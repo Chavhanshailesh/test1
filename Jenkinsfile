@@ -9,13 +9,6 @@ pipeline{
 		
     }
     stages{
-		stage('Git Checkout'){
-			steps{
-				git "${GIT_URL}"
-				sh 'ls'
-			}
-		}
-
         stage('Docker Build'){
             steps{
 				sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
