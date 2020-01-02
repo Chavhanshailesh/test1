@@ -3,9 +3,9 @@ pipeline{
     environment{
 				VERSION = "${BUILD_ID}"
 				REPO_NAME1 = 'demo-test1'
-				REPO_NAME1 = 'demo-test2'
+				REPO_NAME2 = 'demo-test2'
 				IMAGE_NAME1 = 'be1'
-				IMAGE_NAME1 = 'be2'
+				IMAGE_NAME2 = 'be2'
 				ECR_URL = '387637752303.dkr.ecr.us-east-1.amazonaws.com'
 				GIT_URL = 'https://github.com/Chavhanshailesh/test1.git'
 		
