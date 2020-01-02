@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: deepakjotwani/simplr-frontend:tagVersion
+          image: 387637752303.dkr.ecr.us-east-1.amazonaws.com/demo-test1:tagVersion
           ports:
             - name: frontend
               containerPort: 5000
