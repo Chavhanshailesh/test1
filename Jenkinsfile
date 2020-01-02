@@ -14,10 +14,10 @@ pipeline{
         stage('Docker Build'){
             steps{
 				sh 'cd docker1'
-				sh "docker build /docker1 . -t ${REPO_NAME1}/${IMAGE_NAME1}:${VERSION}"
+				sh "docker build . -t ${REPO_NAME1}/${IMAGE_NAME1}:${VERSION}"
 				sh 'cd ..'
 				sh 'cd docker2'
-				sh "docker build /docker2 . -t ${REPO_NAME2}/${IMAGE_NAME2}:${VERSION}"
+				sh "docker build . -t ${REPO_NAME2}/${IMAGE_NAME2}:${VERSION}"
 				sh 'cd ..'
             }
 
