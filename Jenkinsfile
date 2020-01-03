@@ -5,6 +5,7 @@ pipeline{
 				REPO_NAME = 'smtip-admin-frontend'
 				IMAGE_NAME = 'frontend-demo'
 				ECR_URL = '754178572197.dkr.ecr.us-east-1.amazonaws.com'
+				ECR_REGISTRY= 'https://754178572197.dkr.ecr.us-east-1.amazonaws.com'
 				
 		
     }
@@ -45,7 +46,7 @@ pipeline{
 						script{
 							 sh label: '', script: 'export ECR_PASSWORD=$(aws ecr get-login --no-include-email | awk \'{print $6}\')'
 							 kubectl delete secret aws-ecr || true
-							 kubectl create secret docker-registry aws-ecr --docker-server=https://754178572197.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password="$ECR_PASSWORD"
+							 kubectl create secret docker-registry aws-ecr --docker-server=${ECR_REGISTRY} --docker-username=AWS --docker-password=${ECR_PASSWORD}
 							 kubectl get secret aws-ecr
 						
 						}
