@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 387637752303.dkr.ecr.us-east-1.amazonaws.com/demo-test1:27
+          image: 754178572197.dkr.ecr.us-east-1.amazonaws.com/smtip-admin-frontend:tagVersion
           ports:
             - name: frontend
               containerPort: 5000
