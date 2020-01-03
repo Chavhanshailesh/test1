@@ -13,7 +13,7 @@ pipeline{
 	
         stage('Docker Build'){
             steps{
-				//sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
+				sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
             }
         }
 		stage('ECR Push'){
