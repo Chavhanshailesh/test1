@@ -45,7 +45,7 @@ pipeline{
 						//sh 'aws-iam-authenticator help'
 						script{
 							 sh label: '', script: 'export ECR_PASSWORD=$(aws ecr get-login --no-include-email --region us-east-1| awk \'{print $6}\')'
-							 echo ${ECR_PASSWORD}
+							 echo ECR_PASSWORD
 							 sh label: '', script: 'kubectl delete secret aws-ecr || true'
 							 sh label: '', script: 'kubectl create secret docker-registry aws-ecr --docker-server="https://$ECR_REGISTRY" --docker-username=AWS --docker-password="$ECR_PASSWORD"'
 							 sh label: '', script: 'kubectl get secret aws-ecr'
