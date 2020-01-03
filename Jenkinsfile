@@ -10,20 +10,18 @@ pipeline{
     }
     stages{
 	
-        stage('Docker Build'){
-            steps{
-				sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
-            }
+        //stage('Docker Build'){
+          //  steps{
+			//	sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
+            //}
 
-        }
-		
-			
+       // }		
 		stage('Deployment on K8s'){
 				steps{
-					sh "chmod +x changeTag.sh"
-					sh "./changeTag.sh ${VERSION}"
-					sh 'ls'
-					sh "cat latest-deployment.yaml"
+					//sh "chmod +x changeTag.sh"
+					//sh "./changeTag.sh ${VERSION}"
+					//sh 'ls'
+					//sh "cat latest-deployment.yaml"
 					withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'cicd-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 						sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
 						sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
@@ -35,7 +33,7 @@ pipeline{
 						echo "$PATH"
 						sh 'aws-iam-authenticator help'
 						sh 'kubectl get pods'
-						//sh "kubectl apply -f latest-deployment.yaml"
+						sh "kubectl apply -f deployment.yaml"
 						//sh "kubectl apply -f service.yaml"
 					}
 				}	
