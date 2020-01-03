@@ -13,7 +13,7 @@ pipeline{
 	
         stage('Docker Build'){
             steps{
-				sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
+				//sh "docker build . -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} "
             }
         }
 		stage('ECR Push'){
@@ -46,7 +46,7 @@ pipeline{
 						script{
 							 sh label: '', script: 'export ECR_PASSWORD=$(aws ecr get-login --no-include-email --region us-east-1| awk \'{print $6}\')'
 							 sh label: '', script: 'kubectl delete secret aws-ecr || true'
-							 sh label: '', script: 'kubectl create secret docker-registry aws-ecr --docker-server="https://$ECR_REGISTRY" --docker-username=AWS --docker-password="$ECR_PASSWORD"'
+							 sh label: '', script: 'kubectl create secret docker-registry aws-ecr --docker-server="https://$ECR_REGISTRY" --docker-username=AWS --docker-password=$ECR_PASSWORD'
 							 sh label: '', script: 'kubectl get secret aws-ecr'
 						
 						}
