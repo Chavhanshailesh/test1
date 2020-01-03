@@ -32,8 +32,8 @@ pipeline{
 						sh label: '', script: 'echo \'export PATH=~/bin:$PATH\' >> ~/.bashrc'
 						echo "$PATH"
 						sh 'aws-iam-authenticator help'
-						sh 'kubectl get pods'
 						sh "kubectl apply -f deployment.yaml"
+						sh 'kubectl get pods'
 						//sh "kubectl apply -f service.yaml"
 					}
 				}	
