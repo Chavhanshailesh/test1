@@ -46,7 +46,7 @@ pipeline{
 						script{
 							 sh label: '', script: 'export ECR_PASSWORD=$(aws ecr get-login --no-include-email --region us-east-1| awk \'{print $6}\')'
 							 sh label: '', script: 'kubectl delete secret aws-ecr || true'
-							 sh label: '', script: '''kubectl create secret docker-registry aws-ecr --docker-server="https://$ECR_REGISTRY" --docker-username=AWS --docker-password=$(aws ecr get-login --no-include-email | awk '{print $6}')'''
+							 sh label: '', script: '''kubectl create secret docker-registry aws-ecr --docker-server="https://$ECR_REGISTRY" --docker-username=AWS --docker-password=$(aws ecr get-login --no-include-email --region us-east-1| awk \'{print $6}\')'''
 							 sh label: '', script: 'kubectl get secret aws-ecr'
 						
 						}
