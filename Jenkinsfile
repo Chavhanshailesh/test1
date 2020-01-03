@@ -20,9 +20,9 @@ pipeline{
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'cicd-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]){
 					sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
 					sh "aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}"
-					sh "$(aws ecr get-login --no-include-email --region us-east-1)"
-					//sh "docker tag ${REPO_NAME}/${IMAGE_NAME}:${VERSION} ${ECR_URL}/${REPO_NAME}:${VERSION}"
-					//sh "docker push ${ECR_URL}/${REPO_NAME}:${VERSION}"	
+					sh '$(aws ecr get-login --no-include-email --region us-east-1)'
+					//sh 'docker tag ${REPO_NAME}/${IMAGE_NAME}:${VERSION} ${ECR_URL}/${REPO_NAME}:${VERSION}'
+					//sh 'docker push ${ECR_URL}/${REPO_NAME}:${VERSION}'	
 				}
 			}
 		}
